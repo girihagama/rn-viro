@@ -13,7 +13,6 @@ import {
   Text,
   View,
   StyleSheet,
-  PixelRatio,
   TouchableHighlight,
   PermissionsAndroid,
   Platform
@@ -23,9 +22,9 @@ import {
   ViroVRSceneNavigator,
   ViroARSceneNavigator
 } from 'react-viro';
+import { connect } from 'react-redux/src';
 
-import store from './store/index.js'; //importing redux store config from store/index.js
-import { Provider } from 'react-redux/src'; //importing binding layer from reac-redux
+import { initializeStore } from './store/actions/initial_Actions';
 
 //check microhone permission
 const checkMicrophone = async () => {
@@ -80,13 +79,12 @@ var AR_NAVIGATOR_TYPE = "AR";
 // be presented with a choice of AR or VR. By default, we offer the user a choice.
 var defaultNavigatorType = UNSET;
 
-export default class App extends Component {
+export class App extends Component {
   constructor() {
     super();
 
     //check and get audio record permission
     checkMicrophone().then((granted) => {
-      //console.log(res);
       if (!granted) {
         requestMicrophone().then((res) => {
           console.log(res);
@@ -148,20 +146,16 @@ export default class App extends Component {
   // Returns the ViroARSceneNavigator which will start the AR experience
   _getARNavigator() {
     return (
-      <Provider store={store}>
-        <ViroARSceneNavigator {...this.state.sharedProps}
-          initialScene={{ scene: InitialARScene, passProps: { props: this.props, store: store.getState() } }} onExitViro={this._exitViro} />
-      </Provider>
+      <ViroARSceneNavigator {...this.state.sharedProps}
+        initialScene={{ scene: InitialARScene, passProps: { props: this.props } }} onExitViro={this._exitViro} />
     );
   }
 
   // Returns the ViroSceneNavigator which will start the VR experience
   _getVRNavigator() {
     return (
-      <Provider store={store}>
-        <ViroVRSceneNavigator {...this.state.sharedProps}
-          initialScene={{ scene: InitialVRScene, passProps: { props: this.props, store: store.getState() } }} onExitViro={this._exitViro} />
-      </Provider>
+      <ViroVRSceneNavigator {...this.state.sharedProps}
+        initialScene={{ scene: InitialVRScene, passProps: { props: this.props } }} onExitViro={this._exitViro} />
     );
   }
 
@@ -238,5 +232,15 @@ var localStyles = StyleSheet.create({
   }
 });
 
+const mstp = (state) => {
+  return state;
+}
+
+const mdtp = (dispatch) => {
+  return {
+    initialAction: () => dispatch(initializeStore()),
+  }
+}
+
 //module.exports = ViroSample
-module.exports = App;
+module.exports = connect(mstp, mdtp)(App);

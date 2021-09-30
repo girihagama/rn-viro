@@ -1,4 +1,4 @@
-const initial_Reducer = (state = { storeInitialized: true }, action) => {
+function initial_Reducer(state = { storeInitialized: true }, action) {
     console.log("Initial Reducer..");
     switch (action.type) {
         case 'initialize': {
@@ -9,4 +9,4 @@ const initial_Reducer = (state = { storeInitialized: true }, action) => {
     }
 }
 
-export default initial_Reducer;
+module.exports = initial_Reducer

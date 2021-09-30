@@ -12,17 +12,14 @@ import {
   ViroButton,
   ViroSound,
 } from 'react-viro';
-
-import { connect } from 'react-redux';
-import { Provider } from 'react-redux/src';
-import store from '../store';
+import { connect } from 'react-redux/src';
 
 import SceneOne_Portal from './SceneOne_Portal';
 import SceneTwo_Portal from './SceneTwo_Portal';
 import SceneThree_Portal from './SceneThree_Portal';
 import SceneFour_Portal from './SceneFour_Portal';
 
-export default class InitialAR_Scene extends Component {
+export class InitialAR_Scene extends Component {
 
   constructor() {
     super();
@@ -44,7 +41,6 @@ export default class InitialAR_Scene extends Component {
     console.log(this.props);
 
     return (
-      <Provider store={store}>
         <ViroARScene onTrackingUpdated={this._onInitialized} >
 
           {/* light source and 3D object */}
@@ -98,15 +94,14 @@ export default class InitialAR_Scene extends Component {
 
           {/* <ViroAmbientLight color="#000000" intensity={200}/> */}
           {(this.state.counter > 0) ?
-            // <SceneOne_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props, this.props.store} />
-            // <SceneTwo_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props, this.props.store} />
-            // <SceneThree_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props, this.props.store} />
-            <SceneFour_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props, this.props.store} />
+            // <SceneOne_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props} />
+            // <SceneTwo_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props} />
+            // <SceneThree_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props} />
+            <SceneFour_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props} />
             :
             <ViroSound paused={this.state.paused} source={require("./res/questions/q1.mp3")} />
           }
         </ViroARScene>
-      </Provider>
     );
   }
 
@@ -156,4 +151,14 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = InitialAR_Scene;
+const mstp = (state) => {
+  return state;
+}
+
+const mdtp = (dispatch) => {
+  return {
+    initialAction: () => dispatch(initializeStore()),
+  }
+}
+
+module.exports = connect(mstp,mdtp)(InitialAR_Scene);

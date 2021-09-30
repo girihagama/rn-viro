@@ -23,7 +23,8 @@ class SceneThree_Enlarge extends Component {
     state = {};
 
     render() {
-        console.log("Enlarge_Parachute", this.props);
+        console.log("PROPS S3", this.props);
+        
         return (
             <ViroARScene styles={styles.container}>
                 <Viro360Video
