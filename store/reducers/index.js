@@ -1,6 +1,6 @@
-import initial_Reducer from './initial_Reducer';
 import { combineReducers } from 'redux';
+import main_Reducer from './main_Reducer';
 
 module.exports = combineReducers({
-    initial_Reducer
+    main_Reducer
 });

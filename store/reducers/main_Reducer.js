@@ -1,4 +1,4 @@
-function initial_Reducer(state = { storeInitialized: true }, action) {
+function main_Reducer(state = { storeInitialized: true }, action) {
     console.log("Initial Reducer..");
     switch (action.type) {
         case 'initialize': {
@@ -9,4 +9,4 @@ function initial_Reducer(state = { storeInitialized: true }, action) {
     }
 }
 
-module.exports = initial_Reducer
+module.exports = main_Reducer

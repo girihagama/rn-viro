@@ -14,6 +14,8 @@ import {
 } from 'react-viro';
 import { connect } from 'react-redux/src';
 
+import { initializeStore } from '../store/actions/main_Actions';
+
 import SceneOne_Portal from './SceneOne_Portal';
 import SceneTwo_Portal from './SceneTwo_Portal';
 import SceneThree_Portal from './SceneThree_Portal';
@@ -35,10 +37,12 @@ export class InitialAR_Scene extends Component {
 
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
+    this._onButtonTap = this._onButtonTap.bind(this);
+    this._onLoadEnd = this._onLoadEnd.bind(this);
   }
 
   render() {
-    console.log(this.props);
+    console.log("PROPS",this.props);
 
     return (
         <ViroARScene onTrackingUpdated={this._onInitialized} >
@@ -109,22 +113,16 @@ export class InitialAR_Scene extends Component {
     this.setState({
       text: "Your answer was awsome!",
       counter: this.state.counter + 1,
-    });
+    });    
   }
 
   _onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
-      console.log("Tracking Available");
-
-      this.setState({
-        text: "Hi, Welcome to AR zone. How are you feeling today?",
-        counter: 0,
-        questionBoxVisible: true,
-      });
+      console.log("Tracking Available");      
     } else if (state == ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
       console.log("Tracking Lost");
-    }
+    }    
   }
 
   //3D modal initialization
@@ -134,6 +132,12 @@ export class InitialAR_Scene extends Component {
   _onLoadEnd() {
     console.log("OBJ loading has finished");
     this.setState({ questionBoxButton: true, paused: false });
+
+    this.setState({
+      text: "Hi, Welcome to AR zone. How are you feeling today?",
+      counter: 0,
+      questionBoxVisible: true,
+    });
   }
   _onError(event) {
     console.log("OBJ loading failed with error: " + event.nativeEvent.error);
@@ -157,7 +161,7 @@ const mstp = (state) => {
 
 const mdtp = (dispatch) => {
   return {
-    initialAction: () => dispatch(initializeStore()),
+    initializeStore: () => dispatch(initializeStore()),
   }
 }
 

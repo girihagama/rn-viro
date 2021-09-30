@@ -24,7 +24,7 @@ import {
 } from 'react-viro';
 import { connect } from 'react-redux/src';
 
-import { initializeStore } from './store/actions/initial_Actions';
+import { initializeStore } from './store/actions/main_Actions';
 
 //check microhone permission
 const checkMicrophone = async () => {
@@ -238,9 +238,9 @@ const mstp = (state) => {
 
 const mdtp = (dispatch) => {
   return {
-    initialAction: () => dispatch(initializeStore()),
+    initializeStore: () => dispatch(initializeStore()),
   }
 }
 
-//module.exports = ViroSample
+//module.exports = App
 module.exports = connect(mstp, mdtp)(App);
