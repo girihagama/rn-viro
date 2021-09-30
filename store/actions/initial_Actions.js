@@ -1,6 +1,7 @@
-export const initializeStore = () => {
-    console.log("Initial Action..");
+export const initializeStore = (props) => {
+    console.log("Initiating Global Store..");
     return {
-        type: 'initialize'
+        type: 'initialize',
+        data: props
     }
 }

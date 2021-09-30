@@ -1,4 +1,4 @@
-const initial_Reducer = (state = {store:true}, action) => {
+const initial_Reducer = (state = { storeInitialized: true }, action) => {
     console.log("Initial Reducer..");
     switch (action.type) {
         case 'initialize': {

@@ -11,7 +11,7 @@ import {
   ViroVideo
 } from 'react-viro';
 
-export default class HelloWorldScene extends Component {
+export default class InitialVR_Scene extends Component {
 
   constructor() {
     super();
@@ -20,6 +20,8 @@ export default class HelloWorldScene extends Component {
   }
 
   render() {
+    console.log(this.props);
+
     return (
       <ViroScene>
         <Viro360Image source={require('./res/modern_buildings.jpg')} />
@@ -56,4 +58,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = HelloWorldScene;
+module.exports = InitialVR_Scene;

@@ -42,9 +42,9 @@ buck-out/
 *.keystore
 
 # MEDIA FILES
-js/portals/
-js/res/
 media/
+js/res/360_videos/
+js/res/360_videos/intro.mp4
 
 # fastlane
 #

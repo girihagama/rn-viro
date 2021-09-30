@@ -15,6 +15,8 @@ import {
   StyleSheet,
   PixelRatio,
   TouchableHighlight,
+  PermissionsAndroid,
+  Platform
 } from 'react-native';
 
 import {
@@ -22,8 +24,42 @@ import {
   ViroARSceneNavigator
 } from 'react-viro';
 
-import store from './store'; //importing redux store config from store/index.js
-import { Provider } from 'react-redux'; //importing binding layer from reac-redux
+import store from './store/index.js'; //importing redux store config from store/index.js
+import { Provider } from 'react-redux/src'; //importing binding layer from reac-redux
+
+//check microhone permission
+const checkMicrophone = async () => {
+  const result = await PermissionsAndroid.check(
+    PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+  );
+  return result;
+};
+
+//get microphone permission
+const requestMicrophone = async () => {
+  //replace your function with this code.
+  if (Platform.OS === 'android') {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        {
+          title: 'Permissions for record audio',
+          message: 'Give permission to your device to record audio',
+          buttonPositive: 'ok',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('permission granted');
+      } else {
+        console.log('permission denied');
+        return;
+      }
+    } catch (err) {
+      console.warn(err);
+      return;
+    }
+  }
+};
 
 /*
  TODO: Insert your API key below
@@ -48,6 +84,16 @@ export default class App extends Component {
   constructor() {
     super();
 
+    //check and get audio record permission
+    checkMicrophone().then((granted) => {
+      //console.log(res);
+      if (!granted) {
+        requestMicrophone().then((res) => {
+          console.log(res);
+        })
+      }
+    });
+
     this.state = {
       navigatorType: defaultNavigatorType,
       sharedProps: sharedProps
@@ -67,7 +113,7 @@ export default class App extends Component {
     } else if (this.state.navigatorType == VR_NAVIGATOR_TYPE) {
       return this._getVRNavigator();
     } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
-      return this._getARNavigator()
+      return this._getARNavigator();
     }
   }
 
@@ -104,7 +150,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <ViroARSceneNavigator {...this.state.sharedProps}
-          initialScene={{ scene: InitialARScene }} onExitViro={this._exitViro} />
+          initialScene={{ scene: InitialARScene, passProps: { props: this.props, store: store.getState() } }} onExitViro={this._exitViro} />
       </Provider>
     );
   }
@@ -112,8 +158,10 @@ export default class App extends Component {
   // Returns the ViroSceneNavigator which will start the VR experience
   _getVRNavigator() {
     return (
-      <ViroVRSceneNavigator {...this.state.sharedProps}
-        initialScene={{ scene: InitialVRScene }} onExitViro={this._exitViro} />
+      <Provider store={store}>
+        <ViroVRSceneNavigator {...this.state.sharedProps}
+          initialScene={{ scene: InitialVRScene, passProps: { props: this.props, store: store.getState() } }} onExitViro={this._exitViro} />
+      </Provider>
     );
   }
 
@@ -191,5 +239,4 @@ var localStyles = StyleSheet.create({
 });
 
 //module.exports = ViroSample
-
-module.exports = App
+module.exports = App;
