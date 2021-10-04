@@ -1,6 +1,7 @@
-export function initializeStore() {
-    console.log("Initiating Global Store..");
+export function initializeStore(questions) {
+    //console.log("Initiating Global Store..");
     return {
         type: 'initialize',
+        payload: {questions}
     }
 }

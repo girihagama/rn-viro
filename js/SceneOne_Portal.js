@@ -8,7 +8,8 @@ import {
     ViroPortal,
     Viro360Video,
     Viro3DObject,
-    ViroSound
+    ViroSound,
+    ViroAnimations
 } from 'react-viro';
 
 import SceneOne_Enlarge from './SceneOne_Enlarge';
@@ -18,7 +19,7 @@ class SceneOne_Portal extends Component {
         super();
 
         this.state = {
-            play : false
+            play: false
         } // Set initial state here
     }
 
@@ -32,6 +33,11 @@ class SceneOne_Portal extends Component {
             <ViroPortalScene passable={false}>
                 <ViroPortal position={[0, 2, 5]} scale={[.1, .1, .1]} onClick={() => { this.enlargeScene() }}>
                     <Viro3DObject source={require('./portals/portal_res/3d-model.obj')}
+                        animation={{
+                            name: 'loopRotate',
+                            run: true,
+                            loop: true
+                        }}
                         resources={[
                             require('./portals/portal_res/3d-model.mtl'),
                         ]}
@@ -58,6 +64,10 @@ class SceneOne_Portal extends Component {
         this.props.sceneNavigator.jump("Scene1E", { scene: SceneOne_Enlarge });
     }
 }
+
+ViroAnimations.registerAnimations({
+    loopRotate: { properties: {rotateY: "+=45"}, duration: 1000 }
+});
 
 module.exports = SceneOne_Portal;
 //export default SceneOne_Portal;

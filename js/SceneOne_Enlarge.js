@@ -6,8 +6,8 @@ import { StyleSheet, View, Text } from 'react-native';
 import {
     Viro360Video,
     ViroARScene,
-    ViroNode,
 } from 'react-viro';
+import { connect } from 'react-redux/src';
 
 class SceneOne_Enlarge extends Component {
 
@@ -56,4 +56,14 @@ var styles = StyleSheet.create({
     }
 });
 
-module.exports = SceneOne_Enlarge;
+const mstp = (state) => {
+    return state;
+}
+
+const mdtp = (dispatch) => {
+    return {
+        //initializeStore: (question) => dispatch(initializeStore(question)),
+    }
+}
+
+module.exports = connect(mstp, mdtp)(SceneOne_Enlarge);
