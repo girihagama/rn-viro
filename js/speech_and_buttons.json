@@ -1,7 +1,7 @@
 {
     "0": {
         "Question": "Hello, hope you are doing well! Shall we begin the program?",
-        "Speech": "./res/speech/v1.mp3",
+        "Speech": "V1",
         "Buttons": {
             "Begin": true,
             "Exit": true
@@ -13,10 +13,10 @@
     },
     "1": {
         "Question": "At first, would you like to go on a parachute tour?",
-        "Speech": "./res/speech/v2.mp3",
+        "Speech": "V2",
         "Buttons": {
-            "Yes": "Yes.png",
-            "No": "No.png"
+            "Yes": true,
+            "No": true
         },
         "Values": {
             "Yes": 1,
@@ -25,11 +25,11 @@
     },
     "2": {
         "Question": "Ah, good choice. Please touch on the portal to enlarge.",
-        "Speech": "./res/speech/v3.mp3"
+        "Speech": "V3"
     },
     "3": {
         "Question": "Hmm. Shall we go on an underwater tour then?",
-        "Speech": "./res/speech/v4.mp3",
+        "Speech": "V4",
         "Buttons": {
             "Yes": "Yes.png",
             "No": "No.png"
@@ -41,11 +41,11 @@
     },
     "4": {
         "Question": "Ah, good choice. Please touch on the portal to enlarge.",
-        "Speech": "./res/speech/v3.mp3"
+        "Speech": "V3"
     },
     "5": {
         "Question": "How about a nature tour?",
-        "Speech": "./res/speech/v5.mp3",
+        "Speech": "V5",
         "Buttons": {
             "Yes": "Yes.png",
             "No": "No.png"
@@ -57,11 +57,11 @@
     },
     "6": {
         "Question": "Ah, good choice. Please touch on the portal to enlarge.",
-        "Speech": "./res/speech/v3.mp3"
+        "Speech": "V3"
     },
     "7": {
         "Question": "Ok, Do you like to see the northern lights?",
-        "Speech": "./res/speech/v6.mp3",
+        "Speech": "V6",
         "Buttons": {
             "Yes": "Yes.png",
             "No": "No.png"
@@ -73,11 +73,11 @@
     },
     "8": {
         "Question": "Ah, good choice. Please touch on the portal to enlarge.",
-        "Speech": "./res/speech/v3.mp3"
+        "Speech": "V3"
     },
     "9": {
         "Question": "Please try one of the portals.",
-        "Speech": "./res/speech/v7.mp3",
+        "Speech": "V7",
         "Buttons": {
             "Sure": "Sure.png",
             "No": "No.png"
@@ -88,15 +88,15 @@
         }
     },
     "10": {
-        "Question": "Please, Touch to begin & enlarge.",
-        "Speech": "./res/speech/v8.mp3"
+        "Question": "Please touch to begin & enlarge.",
+        "Speech": "V8"
     },
     "11": {
         "Question": "Do you want to exit the app?",
-        "Speech": "./res/speech/v9.mp3",
+        "Speech": "V9",
         "Buttons": {
-            "Yes": "Yes.png",
-            "No": "No.png"
+            "Exit": true,
+            "No": true
         },
         "Values": {
             "Yes": "Exit",
@@ -105,11 +105,17 @@
     },
     "12": {
         "Question": "Sure we'll start over.",
-        "Speech": "./res/speech/v10.mp3"
+        "Speech": "V10",
+        "Buttons": {
+            "Sure": true
+        },
+        "Values": {
+            "Yes": "Reset"
+        }
     },
     "13": {
         "Question": "Seems like you are enjoying the tour.",
-        "Speech": "v11.mp3",
+        "Speech": "V11",
         "Buttons": {
             "Yes": "Yes.png",
             "No": "No.png"
@@ -121,7 +127,7 @@
     },
     "14": {
         "Question": "Do you need to go back to the start?",
-        "Speech": "v12.mp3",
+        "Speech": "V12",
         "Buttons": {
             "Yes": "Yes.png",
             "No": "No.png"
