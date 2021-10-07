@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux/src';
 
 import { StyleSheet } from 'react-native';
 
@@ -58,4 +59,9 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = InitialVR_Scene;
+const mstp = (state) => {
+  return state;
+}
+
+module.exports = connect(mstp)(InitialVR_Scene);
+//module.exports = InitialVR_Scene;

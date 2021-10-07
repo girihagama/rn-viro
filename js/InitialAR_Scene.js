@@ -1,7 +1,12 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import {
+  StyleSheet,
+  Alert,
+  Text,
+  Button,
+} from 'react-native';
 import {
   ViroARScene,
   ViroText,
@@ -11,13 +16,15 @@ import {
   ViroFlexView,
   ViroButton,
   ViroSound,
+  ViroAnimatedImage,
 } from 'react-viro';
 import { connect } from 'react-redux/src';
+import RenderIf from 'render-if';
 
 import questions from './speech_and_buttons.json';
 
 import { initializeStore } from '../store/actions/main_Actions';
-import { initSteps, setStep } from '../store/actions/navigation_Actions';
+import { setStep, exitApp } from '../store/actions/navigation_Actions';
 
 import SceneOne_Portal from './SceneOne_Portal';
 import SceneTwo_Portal from './SceneTwo_Portal';
@@ -51,10 +58,13 @@ export class InitialAR_Scene extends Component {
     // Set initial state here
     this.state = {
       text: "Initializing AR...",
-      counter: 0,
+      initialized: false,
+      buttonPosition: [0, 0, 0],
+      paused: true,
       questionsLoaded: false,
       questionBoxVisible: false,
       questionBoxButton: false,
+      //Handle Portal Windows
       S1PortalShow: false,
       S2PortalShow: false,
       S3PortalShow: false,
@@ -63,13 +73,13 @@ export class InitialAR_Scene extends Component {
 
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
-    this._onButtonTap = this._onButtonTap.bind(this);
     this._onBeginTap = this._onBeginTap.bind(this);
     this._onYesTap = this._onYesTap.bind(this);
     this._onSureTap = this._onSureTap.bind(this);
     this._onNoTap = this._onNoTap.bind(this);
     this._onExitTap = this._onExitTap.bind(this);
     this._onLoadEnd = this._onLoadEnd.bind(this);
+    this._setARNodeRef = this._setARNodeRef.bind(this);
   }
 
   render() {
@@ -78,8 +88,7 @@ export class InitialAR_Scene extends Component {
     var { active_step, active_step_data } = this.props.navigation_Reducer;
     var stepButtons = (active_step_data.Buttons) ? active_step_data.Buttons : null;
     var stepSpeech = (active_step_data.Speech) ? active_step_data.Speech : null;
-
-    console.log(stepButtons);
+    var exitApp = this.props.navigation_Reducer.exitApp;
 
     //read buttons
     if (stepButtons) {
@@ -118,6 +127,7 @@ export class InitialAR_Scene extends Component {
           scalePivot={[0, 0, 0]}
           rotation={[90, 150, 180]}
           rotationPivot={[0, 0, 0]}
+          renderingOrder={-1}
           onLoadStart={this._onLoadStart}
           onLoadEnd={this._onLoadEnd.bind(this)}
           onError={this._onError}
@@ -127,11 +137,12 @@ export class InitialAR_Scene extends Component {
             require('./res/3d_modals/cat/Cat_diffuse.jpg'),
           ]} />
 
-        {/* question boxes */}
-        <ViroFlexView visible={this.state.questionBoxButton} style={{ flexDirection: 'column', alignItems: 'center', padding: .1, backgroundColor: 'rgba(0,0,0,0.5)' }}
+        {/* question box */}
+        <ViroFlexView renderingOrder={0} visible={this.state.questionBoxButton} style={{ flexDirection: 'column', alignItems: 'center', padding: .1, backgroundColor: 'rgba(0,0,0,0.5)' }}
           width={3} height={2}
           position={[0, 0, -5]}
           rotation={[0, 0, 0]} >
+
           <ViroText text={active_step_data.Question || this.state.text}
             textAlign="center"
             width={2.5}
@@ -141,151 +152,188 @@ export class InitialAR_Scene extends Component {
             style={{ flex: 1, fontSize: 15, textAlign: 'center', fontWeight: 'bold' }} />
 
           {/* show buttons only if the steps are loaded */}
-          {(steps) ?
-            <ViroFlexView style={{ flex: 1, flexDirection: 'row', alignSelf: 'center' }}>
-              {(stepButtons && stepButtons.contains("Begin")) ?
+          {RenderIf(steps)(
+            <ViroFlexView ref={this._setARNodeRef} renderingOrder={1} position={[0, 0, -5]} rotation={[0, 0, 0]} style={{ flex: 1, flexDirection: 'row', alignSelf: 'center' }}>
+              {RenderIf(stepButtons && stepButtons.contains("Begin"))(
                 <ViroButton
                   source={Begin}
                   gazeSource={Begin}
                   tapSource={Begin}
                   height={0.4}
                   width={1}
-                  onClick={this._onBeginTap.bind(this)} /> : <ViroText />
+                  onClick={this._onBeginTap.bind(this)} />)
               }
-              {(stepButtons && stepButtons.contains("Yes")) ?
+              {RenderIf(stepButtons && stepButtons.contains("Yes"))(
                 <ViroButton
                   source={Yes}
                   gazeSource={Yes}
                   tapSource={Yes}
                   height={0.4}
                   width={1}
-                  onClick={this._onYesTap("Yes")} /> : <ViroText />
+                  onClick={this._onYesTap.bind(this)} />)
               }
-              {(stepButtons && stepButtons.contains("Sure")) ?
+              {RenderIf(stepButtons && stepButtons.contains("Sure"))(
                 <ViroButton
                   source={Sure}
                   gazeSource={Sure}
                   tapSource={Sure}
                   height={0.4}
                   width={1}
-                  onClick={this._onSureTap("Sure")} /> : <ViroText />
+                  onClick={this._onSureTap.bind(this)} />)
               }
-              {(stepButtons && stepButtons.contains("No")) ?
+              {RenderIf(stepButtons && stepButtons.contains("No"))(
                 <ViroButton
                   source={No}
                   gazeSource={No}
                   tapSource={No}
                   height={0.4}
                   width={1}
-                  onClick={this._onNoTap("No")} /> : <ViroText />
+                  onClick={this._onNoTap.bind(this)} />)
               }
-              {(stepButtons && stepButtons.contains("Exit")) ?
+              {RenderIf(stepButtons && stepButtons.contains("Exit"))(
                 <ViroButton
                   source={Exit}
                   gazeSource={Exit}
                   tapSource={Exit}
                   height={0.4}
                   width={1}
-                  onClick={this._onExitTap.bind(this)} /> : <ViroText />
+                  onClick={this._onExitTap.bind(this)} />)
               }
-              {(!stepButtons) ?
-                <ViroButton
-                  source={require('./res/enlarge.gif')}
+              {RenderIf(!stepButtons && (active_step == 2 || active_step == 4 || active_step == 6 || active_step == 8))(
+                <ViroAnimatedImage
                   height={0.4}
-                  width={1.5} /> : <ViroText />
+                  width={1.5}
+                  placeholderSource={require("./res/enlarge.gif")}
+                  source={{ uri: "https://i.pinimg.com/originals/18/8c/fa/188cfa53a6ef3231c4e261acc132112e.gif" }}
+                />
+              )
               }
-            </ViroFlexView>
-            : <ViroText text="" />
-          }
 
-          {/* <ViroFlexView style={{ flex: .5, flexDirection: 'row' }}></ViroFlexView> */}
+            </ViroFlexView>)
+          }
         </ViroFlexView>
 
         {/*Aappear Portals */}
         {
-          (active_step == 2)
+          (active_step == 2 || active_step == 10)
             ? <SceneOne_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props} />
             : <ViroText text="" />
         }
         {
-          (active_step == 4)
+          (active_step == 4 || active_step == 10)
             ? <SceneTwo_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props} />
             : <ViroText text="" />
         }
         {
-          (active_step == 6)
+          (active_step == 6 || active_step == 10)
             ? <SceneThree_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props} />
             : <ViroText text="" />
         }
         {
-          (active_step == 8)
+          (active_step == 8 || active_step == 10)
             ? <SceneFour_Portal sceneNavigator={this.props.sceneNavigator} passProps={this.props} />
             : <ViroText text="" />
         }
 
         {/* Emmit Speeches */}
         {
-          (stepSpeech && stepSpeech.contains("V1")) ? <ViroSound source={V1} /> : <ViroText />
+          (stepSpeech && stepSpeech.contains("V1"))
+            ? <ViroSound paused={!this.state.initialized} source={V1} />
+            : <ViroText />
         }
         {
-          (stepSpeech && stepSpeech.contains("V2")) ? <ViroSound source={V2} /> : <ViroText />
+          (stepSpeech && stepSpeech.contains("V2"))
+            ? <ViroSound paused={!this.state.initialized} source={V2} />
+            : <ViroText />
         }
         {
-          (stepSpeech && stepSpeech.contains("V3")) ? <ViroSound source={V3} /> : <ViroText />
+          (stepSpeech && stepSpeech.contains("V3"))
+            ? <ViroSound paused={!this.state.initialized} source={V3} />
+            : <ViroText />
         }
         {
-          (stepSpeech && stepSpeech.contains("V4")) ? <ViroSound source={V4} /> : <ViroText />
+          (stepSpeech && stepSpeech.contains("V4"))
+            ? <ViroSound paused={!this.state.initialized} source={V4} />
+            : <ViroText />
         }
         {
-          (stepSpeech && stepSpeech.contains("V5")) ? <ViroSound source={V5} /> : <ViroText />
+          (stepSpeech && stepSpeech.contains("V5"))
+            ? <ViroSound paused={!this.state.initialized} source={V5} />
+            : <ViroText />
         }
         {
-          (stepSpeech && stepSpeech.contains("V6")) ? <ViroSound source={V6} /> : <ViroText />
+          (stepSpeech && stepSpeech.contains("V6"))
+            ? <ViroSound paused={!this.state.initialized} source={V6} />
+            : <ViroText />
         }
         {
-          (stepSpeech && stepSpeech.contains("V7")) ? <ViroSound source={V7} /> : <ViroText />
+          (stepSpeech && stepSpeech.contains("V7"))
+            ? <ViroSound paused={!this.state.initialized} source={V7} />
+            : <ViroText />
         }
         {
-          (stepSpeech && stepSpeech.contains("V8")) ? <ViroSound source={V8} /> : <ViroText />
+          (stepSpeech && stepSpeech.contains("V8"))
+            ? <ViroSound paused={!this.state.initialized} source={V8} />
+            : <ViroText />
         }
         {
-          (stepSpeech && stepSpeech.contains("V9")) ? <ViroSound source={V9} /> : <ViroText />
+          (stepSpeech && stepSpeech.contains("V9"))
+            ? <ViroSound paused={!this.state.initialized} source={V9} />
+            : <ViroText />
         }
         {
-          (stepSpeech && stepSpeech.contains("V10")) ? <ViroSound source={V10} /> : <ViroText />
+          (stepSpeech && stepSpeech.contains("V10"))
+            ? <ViroSound paused={!this.state.initialized} source={V10} />
+            : <ViroText />
         }
 
       </ViroARScene>
     );
   }
 
-  _onButtonTap() {
-    this.setState({
-      counter: this.state.counter + 1,
-    });
-
-    console.log(this.active_step);
+  _setARNodeRef(component) {
+    this.arNodeRef = component;
   }
 
   _onBeginTap = () => {
-    console.log(this.props);
-    this.props.setStep(1);
+    var { active_step, active_step_data } = this.props.navigation_Reducer;
+    var nextStep = active_step_data.Values['Begin'] + active_step;
+    var nextStepData = questions[nextStep];
+
+    console.log("Begin", active_step, active_step_data, nextStep, nextStepData);
+    this.props.setStep(nextStep, nextStepData);
+    this.arNodeRef.setNativeProps({position:[0.5,0.5,0]});
   }
 
   _onYesTap() {
-    console.log("Yes");
+    var { active_step, active_step_data } = this.props.navigation_Reducer;
+    var nextStep = active_step_data.Values['Yes'] + active_step;
+    var nextStepData = questions[nextStep];
+
+    console.log("Yes", active_step, active_step_data, nextStep, nextStepData);
+    this.props.setStep(nextStep, nextStepData);
   }
 
   _onSureTap() {
-    console.log("Sure");
+    var nextStep = 1;
+    var nextStepData = questions[nextStep];
+
+    console.log("Sure", nextStep, nextStepData);
+    this.props.setStep(nextStep, nextStepData);
   }
 
   _onNoTap() {
-    console.log("No");
+    var { active_step, active_step_data } = this.props.navigation_Reducer;
+    var nextStep = active_step_data.Values['No'] + active_step;
+    var nextStepData = questions[nextStep];
+
+    console.log("No", active_step, active_step_data, nextStep, nextStepData);
+    this.props.setStep(nextStep, nextStepData);
   }
 
   _onExitTap() {
     console.log("Exit");
+    this.props.arSceneNavigator.pop();
   }
 
   _onInitialized(state, reason) {
@@ -301,6 +349,10 @@ export class InitialAR_Scene extends Component {
       this.props.initializeStore(questions);
       this.setState({ questionsLoaded: true });
     }
+
+    this.setState({
+      buttonPosition: [10, 10, 5]
+    })
   }
 
   //3D modal initialization
@@ -314,8 +366,8 @@ export class InitialAR_Scene extends Component {
 
     this.setState({
       text: "Loading Questions...",
-      //counter: 0,
       questionBoxVisible: true,
+      initialized: true
     });
   }
 
@@ -342,8 +394,8 @@ const mstp = (state) => {
 const mdtp = (dispatch) => {
   return {
     initializeStore: (question) => dispatch(initializeStore(question)),
-    initSteps: (stepData) => dispatch(initSteps(stepData)),
-    setStep: (step_number) => dispatch(setStep(step_number)),
+    setStep: (step_number, stepData) => dispatch(setStep(step_number, stepData)),
+    exitApp: () => dispatch(exitApp()),
   }
 }
 

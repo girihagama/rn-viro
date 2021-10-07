@@ -76,14 +76,14 @@
         "Speech": "V3"
     },
     "9": {
-        "Question": "Please try one of the portals.",
+        "Question": "Do you want try one of the portals?",
         "Speech": "V7",
         "Buttons": {
-            "Sure": "Sure.png",
+            "Yes": "Yes.png",
             "No": "No.png"
         },
         "Values": {
-            "Sure": 1,
+            "Yes": 1,
             "No": 2
         }
     },
@@ -99,18 +99,18 @@
             "No": true
         },
         "Values": {
-            "Yes": "Exit",
+            "Exit": "Exit",
             "No": 1
         }
     },
     "12": {
-        "Question": "Sure we'll start over.",
+        "Question": "Shall we start over?",
         "Speech": "V10",
         "Buttons": {
             "Sure": true
         },
         "Values": {
-            "Yes": "Reset"
+            "Sure": "Reset"
         }
     },
     "13": {

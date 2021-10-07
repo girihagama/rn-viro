@@ -13,6 +13,7 @@ import {
 } from 'react-viro';
 
 import SceneOne_Enlarge from './SceneOne_Enlarge';
+import InitialVR_Scene from './InitialVR_Scene';
 
 class SceneOne_Portal extends Component {
     constructor() {
@@ -21,6 +22,9 @@ class SceneOne_Portal extends Component {
         this.state = {
             play: false
         } // Set initial state here
+
+        // bind 'this' to functions
+        this.enlargeScene = this.enlargeScene.bind(this);
     }
 
     state = {
@@ -33,11 +37,11 @@ class SceneOne_Portal extends Component {
             <ViroPortalScene passable={false}>
                 <ViroPortal position={[0, 2, 5]} scale={[.1, .1, .1]} onClick={() => { this.enlargeScene() }}>
                     <Viro3DObject source={require('./portals/portal_res/3d-model.obj')}
-                        animation={{
-                            name: 'loopRotate',
-                            run: true,
-                            loop: true
-                        }}
+                        // animation={{
+                        //     name: 'loopRotate',
+                        //     run: true,
+                        //     loop: true
+                        // }}
                         resources={[
                             require('./portals/portal_res/3d-model.mtl'),
                         ]}
@@ -48,7 +52,7 @@ class SceneOne_Portal extends Component {
                 </ViroPortal>
                 {
                     (this.state.play) ?
-                        <Viro360Video paused={!this.state.play} muted={true} source={require("./res/360_videos/SceneOne.mp4")} loop={false} />
+                        <Viro360Video paused={!this.state.play} muted={true} source={require("./res/360_videos/SceneOne.mp4")} loop={true} />
                         :
                         <ViroSound
                             source={require("./res/music/PortalAppear.wav")} onFinish={() => { this.setState({ play: true }) }}
@@ -61,12 +65,12 @@ class SceneOne_Portal extends Component {
     enlargeScene() {
         console.log("Enlarging - Scene 1");
         this.setState({ play: false });
-        this.props.sceneNavigator.jump("Scene1E", { scene: SceneOne_Enlarge });
+        this.props.sceneNavigator.jump("Scene1E", { scene: InitialVR_Scene });
     }
 }
 
 ViroAnimations.registerAnimations({
-    loopRotate: { properties: {rotateY: "+=45"}, duration: 1000 }
+    loopRotate: { properties: { rotateY: "+=45" }, duration: 1000 }
 });
 
 module.exports = SceneOne_Portal;

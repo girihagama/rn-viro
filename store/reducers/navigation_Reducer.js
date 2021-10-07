@@ -8,10 +8,10 @@ const initialState = {
 function navigation_Reducer(state = initialState, action) {
     //console.log("Initial Reducer..");
     switch (action.type) {
-        case 'initSteps': {
+        case 'setStep': {
             return action.payload;
         }
-        case 'setStep': {
+        case 'exitApp': {
             return action.payload;
         }
         default:

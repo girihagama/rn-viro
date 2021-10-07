@@ -1,13 +1,13 @@
-export function initSteps(stepData) {
+export function setStep(step_number, stepData) {
     return {
-        type: 'initSteps',
-        payload: { active_step_data: stepData }
+        type: 'setStep',
+        payload: { active_step: step_number, active_step_data : stepData }
     }
 }
 
-export function setStep(step_number) {
+export function exitApp() {
     return {
-        type: 'setStep',
-        payload: { active_step: step_number }
+        type: 'exitApp',
+        payload: true
     }
 }
