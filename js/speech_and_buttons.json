@@ -31,8 +31,8 @@
         "Question": "Hmm. Shall we go on an underwater tour then?",
         "Speech": "V4",
         "Buttons": {
-            "Yes": "Yes.png",
-            "No": "No.png"
+            "Yes": true,
+            "No": true
         },
         "Values": {
             "Yes": 1,
@@ -47,8 +47,8 @@
         "Question": "How about a nature tour?",
         "Speech": "V5",
         "Buttons": {
-            "Yes": "Yes.png",
-            "No": "No.png"
+            "Yes": true,
+            "No": true
         },
         "Values": {
             "Yes": 1,
@@ -63,8 +63,8 @@
         "Question": "Ok, Do you like to see the northern lights?",
         "Speech": "V6",
         "Buttons": {
-            "Yes": "Yes.png",
-            "No": "No.png"
+            "Yes": true,
+            "No": true
         },
         "Values": {
             "Yes": 1,
@@ -76,11 +76,11 @@
         "Speech": "V3"
     },
     "9": {
-        "Question": "Do you want try one of the portals?",
+        "Question": "Do you want try one of the previous portals?",
         "Speech": "V7",
         "Buttons": {
-            "Yes": "Yes.png",
-            "No": "No.png"
+            "Yes": true,
+            "No": true
         },
         "Values": {
             "Yes": 1,
@@ -117,8 +117,8 @@
         "Question": "Seems like you are enjoying the tour.",
         "Speech": "V11",
         "Buttons": {
-            "Yes": "Yes.png",
-            "No": "No.png"
+            "Yes": true,
+            "No": true
         },
         "Values": {
             "Yes": 0,
@@ -129,8 +129,8 @@
         "Question": "Do you need to go back to the start?",
         "Speech": "V12",
         "Buttons": {
-            "Yes": "Yes.png",
-            "No": "No.png"
+            "Yes": true,
+            "No": true
         },
         "Values": {
             "Yes": "Begin",

@@ -11,9 +11,6 @@ function navigation_Reducer(state = initialState, action) {
         case 'setStep': {
             return action.payload;
         }
-        case 'exitApp': {
-            return action.payload;
-        }
         default:
             return state;
     }

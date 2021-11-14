@@ -94,7 +94,8 @@ export class App extends Component {
 
     this.state = {
       navigatorType: defaultNavigatorType,
-      sharedProps: sharedProps
+      sharedProps: sharedProps,
+      vrMode: true
     }
     this._getExperienceSelector = this._getExperienceSelector.bind(this);
     this._getARNavigator = this._getARNavigator.bind(this);
@@ -145,16 +146,16 @@ export class App extends Component {
 
   // Returns the ViroARSceneNavigator which will start the AR experience
   _getARNavigator() {
-    return (
-      <ViroARSceneNavigator {...this.state.sharedProps}
-        initialScene={{ scene: InitialARScene, passProps: { props: this.props } }} onExitViro={this._exitViro} />
+    return ( //videoQuality={["High", "Low"]}
+      <ViroARSceneNavigator videoQuality={["Low"]} {...this.state.sharedProps} vrModeEnabled={this.state.vrMode}
+        initialScene={{ scene: InitialARScene, passProps: { props: this.props, exitApp: this._exitViro } }} onExitViro={this._exitViro} />
     );
   }
 
   // Returns the ViroSceneNavigator which will start the VR experience
   _getVRNavigator() {
     return (
-      <ViroVRSceneNavigator {...this.state.sharedProps}
+      <ViroVRSceneNavigator {...this.state.sharedProps} vrModeEnabled={this.state.vrMode}
         initialScene={{ scene: InitialVRScene, passProps: { props: this.props } }} onExitViro={this._exitViro} />
     );
   }

@@ -10,6 +10,7 @@
     "@react-native-voice/voice": "^3.2.2",
     "react": "16.8.3",
     "react-native": "0.59.3",
+    "react-native-dialog": "^9.1.2",
     "react-native-google-cloud-speech-to-text": "^0.5.4",
     "react-redux": "^7.2.4",
     "react-viro": "2.17.0",

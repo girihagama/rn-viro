@@ -9,7 +9,7 @@ import {
   ViroScene,
   Viro360Image,
   ViroText,
-  ViroVideo
+  ViroVideo,
 } from 'react-viro';
 
 export default class InitialVR_Scene extends Component {
@@ -21,25 +21,25 @@ export default class InitialVR_Scene extends Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log("PROPS", this.props);
 
     return (
       <ViroScene>
-        <Viro360Image source={require('./res/modern_buildings.jpg')} />
-        <ViroText text="Chatura Dharmaratne" width={2} height={2} position={[0, 1, -2]} style={styles.name} />
-        <ViroText text="SLIIT 2018 FEB" width={2} height={2} position={[0, -2, -2]} style={styles.batch} />
+        <Viro360Image renderingOrder={-1} source={require('./res/modern_buildings.jpg')} />
+        <ViroText renderingOrder={-1} text="Chatura Dharmaratne" width={2} height={2} position={[0, 1, -2]} style={styles.name} />
+        <ViroText renderingOrder={-1} text="SLIIT 2018 FEB" width={2} height={2} position={[0, -2, -2]} style={styles.batch} />
         <ViroVideo
+          renderingOrder={-1}
           source={require('./res/intro.mp4')}
           loop={true}
           width={3}
           height={2}
           position={[0, -0.5, -2]}
           scale={[1, 1, 1]}
-        />    
+        />
       </ViroScene>
     );
   }
-
 }
 
 var styles = StyleSheet.create({

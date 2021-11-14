@@ -32,7 +32,7 @@ class SceneFour_Portal extends Component {
 
         return (
             <ViroPortalScene passable={false}>
-                <ViroPortal position={[0, 2, 5]} scale={[.1, .1, .1]} onClick={() => { this.enlargeScene() }}>
+                <ViroPortal position={[0, 8, 5]} scale={[.1, .1, .1]} onClick={() => { this.enlargeScene() }}>
                     <Viro3DObject source={require('./portals/portal_res/3d-model.obj')}
                         resources={[
                             require('./portals/portal_res/3d-model.mtl'),
@@ -57,7 +57,7 @@ class SceneFour_Portal extends Component {
     enlargeScene() {
         console.log("Enlarging - Scene 4");
         this.setState({ play: false });
-        this.props.sceneNavigator.jump("Scene4E", { scene: SceneFour_Enlarge });
+        this.props.sceneNavigator.jump("Scene4E", { scene: SceneFour_Enlarge, passProps: {exitApp: this.props.exitApp, resetScenes:this.props.resetScenes} });
     }
 }
 

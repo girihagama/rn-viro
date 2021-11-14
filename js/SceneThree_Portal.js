@@ -18,7 +18,7 @@ class SceneThree_Portal extends Component {
         super();
 
         this.state = {
-            play : false
+            play: false
         } // Set initial state here
     }
 
@@ -35,9 +35,10 @@ class SceneThree_Portal extends Component {
                         resources={[
                             require('./portals/portal_res/3d-model.mtl'),
                         ]}
-                        position={[30, -50, -70]}
+                        position={[90, -50, -70]}
                         scale={[0.75, 0.75, 0.75]}
                         rotation={[0, -50, 0]}
+                        renderingOrder={1}
                         type="OBJ" />
                 </ViroPortal>
                 {
@@ -55,7 +56,7 @@ class SceneThree_Portal extends Component {
     enlargeScene() {
         console.log("Enlarging - Scene 3");
         this.setState({ play: false });
-        this.props.sceneNavigator.jump("Scene3E", { scene: SceneThree_Enlarge });
+        this.props.sceneNavigator.jump("Scene3E", { scene: SceneThree_Enlarge, passProps: {exitApp: this.props.exitApp, resetScenes:this.props.resetScenes} });
     }
 }
 

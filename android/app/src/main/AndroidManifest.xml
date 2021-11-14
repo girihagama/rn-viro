@@ -24,4 +24,12 @@
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>
 
+    <!-- //Android 11 speech to text support
+      <queries>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+      </queries>
+    //Android 11 speech to text support -->
+
 </manifest>

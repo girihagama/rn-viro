@@ -4,10 +4,3 @@ export function setStep(step_number, stepData) {
         payload: { active_step: step_number, active_step_data : stepData }
     }
 }
-
-export function exitApp() {
-    return {
-        type: 'exitApp',
-        payload: true
-    }
-}

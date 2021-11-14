@@ -18,6 +18,7 @@ class SceneTwo_Enlarge extends Component {
 
         // bind 'this' to functions
         this._onInitialized = this._onInitialized.bind(this);
+        this._onExit = this._onExit.bind(this);
     }
 
     state = {};
@@ -32,6 +33,7 @@ class SceneTwo_Enlarge extends Component {
                     loop={false}
                     paused={false}
                     volume={1.0}
+                    onFinish={() => { console.log('S2E Playback completed!'); this.props.resetScenes(); this.props.exitApp() }}
                 />
             </ViroARScene>
         );
@@ -45,13 +47,18 @@ class SceneTwo_Enlarge extends Component {
             console.log("Tracking Lost");
         }
     }
+
+    _onExit() {
+        this.props.exitApp();
+        //this.props.sceneNavigator.push("Back", { scene: SceneOne_Portal }); //"InitialScene", { scene: InitialAR_Scene }
+    }
 }
 
 var styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
-        backgroundColor: "#888888",
+        backgroundColor: "#fff",
         padding: 8
     }
 });

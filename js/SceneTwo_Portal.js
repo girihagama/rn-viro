@@ -28,6 +28,7 @@ class SceneTwo_Portal extends Component {
     }
 
     render() {
+        //30, -50, 5
         return (
             <ViroPortalScene passable={false}>
                 <ViroPortal position={[0, 2, 5]} scale={[.1, .1, .1]} onClick={() => { this.enlargeScene() }}>
@@ -35,9 +36,10 @@ class SceneTwo_Portal extends Component {
                         resources={[
                             require('./portals/portal_res/3d-model.mtl'),
                         ]}
-                        position={[30, -50, -70]}
+                        position={[60, -50, -70]}
                         scale={[0.75, 0.75, 0.75]}
                         rotation={[0, -50, 0]}
+                        renderingOrder={1}
                         type="OBJ" />
                 </ViroPortal>
                 {
@@ -55,7 +57,7 @@ class SceneTwo_Portal extends Component {
     enlargeScene() {
         console.log("Enlarging - Scene 2");
         this.setState({ play: false });
-        this.props.sceneNavigator.jump("Scene2E", { scene: SceneTwo_Enlarge });
+        this.props.sceneNavigator.jump("Scene2E", { scene: SceneTwo_Enlarge, passProps: {exitApp: this.props.exitApp, resetScenes:this.props.resetScenes}});
     }
 }
 
